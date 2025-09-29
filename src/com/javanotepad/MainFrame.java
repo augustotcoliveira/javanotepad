@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,21 +36,21 @@ public class MainFrame extends JFrame {
             System.err.println("o icone da aplicacao nao encontrado.");
         }
 
-        // Criação do painel de fundo animado
+        // Painel de fundo animado
         animatedPanel = new AnimatedBackgroundPanel();
         animatedPanel.setLayout(new BorderLayout());
         setContentPane(animatedPanel);
 
-        // Criação da barra de menus
+        // Barra de menus
         setJMenuBar(createMenuBar());
 
-        // Criação da área de texto com barra de rolagem
+        // Criação da área de texto
         textArea = new JTextArea();
         textArea.setFont(new Font("Consolas", Font.PLAIN, 14));
-        textArea.setForeground(Color.WHITE); // Cor do texto para contrastar com o fundo preto
+        textArea.setForeground(Color.WHITE); // Cor do texto
         textArea.setBackground(new Color(0, 0, 0, 128)); // Fundo semitransparente
         textArea.setCaretColor(Color.CYAN); // Cor do cursor
-        textArea.setOpaque(false); // Permite ver o fundo animado
+        textArea.setOpaque(false); // Permite ver o fundo
         textArea.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -80,7 +81,7 @@ public class MainFrame extends JFrame {
         statusBar.setBorder(new EmptyBorder(4, 8, 4, 8));
         animatedPanel.add(statusBar, BorderLayout.SOUTH);
 
-        // Inicia a animação DEPOIS que a janela estiver pronta
+        // Inicia a animação somente depois que a janela estiver pronta
         addWindowStateListener(e -> {
             if (e.getNewState() == Frame.NORMAL) {
                 animatedPanel.startAnimation();
@@ -115,7 +116,7 @@ public class MainFrame extends JFrame {
         closeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         closeItem.addActionListener(e -> closeFile());
 
-        JMenuItem exitItem = new JMenuItem("Sair", loadIcon("exit.png", 15, 15));
+        JMenuItem exitItem = new JMenuItem("Sair", loadIcon("exit.png", 13, 13));
         exitItem.setMnemonic(KeyEvent.VK_S);
         exitItem.setToolTipText("Encerrar a aplicação");
         exitItem.addActionListener((event) -> System.exit(0));
@@ -127,10 +128,10 @@ public class MainFrame extends JFrame {
 
         // Menu Configuração
         JMenu configMenu = new JMenu("Configuração");
-        configMenu.setIcon(loadIcon("settings.png", 6, 6));
+        configMenu.setIcon(loadIcon("settings.png", 13, 13));
 
         JMenu patternsMenu = new JMenu("Padrões");
-        patternsMenu.setIcon(loadIcon("pattern.png", 6, 6));
+        patternsMenu.setIcon(loadIcon("pattern.png", 13, 13));
         ButtonGroup patternGroup = new ButtonGroup();
 
         JRadioButtonMenuItem starfieldItem = new JRadioButtonMenuItem("Starfield", true);
@@ -144,11 +145,11 @@ public class MainFrame extends JFrame {
         patternsMenu.add(starfieldItem);
         patternsMenu.add(matrixItem);
 
-        JMenuItem colorItem = new JMenuItem("Cores", loadIcon("color.png", 6, 6));
+        JMenuItem colorItem = new JMenuItem("Cores", loadIcon("color.png", 13, 13));
         colorItem.addActionListener(e -> chooseColor());
 
         JMenu speedMenu = new JMenu("Velocidade");
-        speedMenu.setIcon(loadIcon("speed.png", 6, 6));
+        speedMenu.setIcon(loadIcon("speed.png", 13, 13));
         ButtonGroup speedGroup = new ButtonGroup();
 
         JRadioButtonMenuItem slowItem = new JRadioButtonMenuItem("Lenta");
@@ -174,10 +175,10 @@ public class MainFrame extends JFrame {
         // Menu Ajuda
         JMenu helpMenu = new JMenu("Ajuda");
 
-        JMenuItem helpItem = new JMenuItem("Ajuda", loadIcon("help.png", 6, 6));
+        JMenuItem helpItem = new JMenuItem("Ajuda", loadIcon("help.png", 13, 13));
         helpItem.addActionListener(e -> showHelpDialog());
 
-        JMenuItem aboutItem = new JMenuItem("Sobre", loadIcon("about.png", 6, 6));
+        JMenuItem aboutItem = new JMenuItem("Sobre", loadIcon("about.png", 13, 13));
         aboutItem.addActionListener(e -> showAboutDialog());
 
         helpMenu.add(helpItem);
@@ -193,6 +194,9 @@ public class MainFrame extends JFrame {
     // --- Lógica das Ações ---
     private void openFile() {
         JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos de Texto (*.txt)", "txt");
+        
+        fileChooser.setFileFilter(filter);
         int result = fileChooser.showOpenDialog(this);
 
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -211,11 +215,13 @@ public class MainFrame extends JFrame {
                 // Move o cursor para o início do documento
                 textArea.setCaretPosition(0);
 
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this,
-                    "Erro ao ler o arquivo: " + ex.getMessage(),
-                    "Erro de Arquivo",
+                    "Não foi possível abrir o arquivo.\nEle pode ser um arquivo binário ou estar corrompido.",
+                    "Erro de Leitura",
                     JOptionPane.ERROR_MESSAGE);
+                // Limpa a área de texto em caso de falha na leitura
+                closeFile();
             }
         }
     }
@@ -239,9 +245,9 @@ public class MainFrame extends JFrame {
     }
 
     private void showAboutDialog() {
-        ImageIcon icon = loadIcon("app_icon.png", 20, 20);
+        ImageIcon icon = loadIcon("app_icon.png", 25, 25);
         JOptionPane.showMessageDialog(this,
-                "Aplicação: Editor com Fundo Dinâmico\nVersão: 1.0\nAutor: [Seu Nome Aqui]",
+                "Aplicação: Notepad com Fundo Dinâmico\nVersão: 1.0\nAutores: Augusto Toledo 199793",
                 "Sobre",
                 JOptionPane.INFORMATION_MESSAGE,
                 icon);

@@ -112,7 +112,7 @@ public class AnimatedBackgroundPanel extends JPanel implements Runnable {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // 🔑 Se ainda não inicializou, inicializa agora
+        // Se ainda não inicializou, inicia agora
         if (starX == null || starY == null || starZ == null || drops == null) {
             initializeAnimations();
         }
@@ -141,7 +141,7 @@ public class AnimatedBackgroundPanel extends JPanel implements Runnable {
         }
 
         for (int i = 0; i < starCount; i++) {
-            starZ[i] -= 5; // velocidade maior para ficar perceptível
+            starZ[i] -= 5;
             if (starZ[i] <= 0) {
                 starZ[i] = Math.max(1, getWidth());
                 starX[i] = random.nextInt(getWidth() * 2) - getWidth();

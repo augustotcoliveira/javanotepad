@@ -6,7 +6,7 @@ import javax.swing.UIManager;
 public class MainApp {
 
     public static void main(String[] args) {
-        // Bloco try-catch para definir o Look and Feel Nimbus
+        // Definir o Look and Feel Nimbus
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -15,7 +15,7 @@ public class MainApp {
                 }
             }
         } catch (Exception e) {
-            // Se o Nimbus não estiver disponível, pode usar o padrão do sistema.
+            // Se o Nimbus nao estiver disponivel, pode usar o padrão do sistema.
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ex) {
@@ -23,7 +23,7 @@ public class MainApp {
             }
         }
 
-        // Garante que a GUI seja criada na Event Dispatch Thread (EDT)
+        // GUI sera criada na Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
             MainFrame frame = new MainFrame();
             frame.setVisible(true);
