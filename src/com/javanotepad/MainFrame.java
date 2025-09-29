@@ -195,31 +195,31 @@ public class MainFrame extends JFrame {
     private void openFile() {
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos de Texto (*.txt)", "txt");
-        
+
         fileChooser.setFileFilter(filter);
         int result = fileChooser.showOpenDialog(this);
 
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            
+
             StringBuilder sb = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     sb.append(line).append(System.lineSeparator()); // Adiciona a linha e a quebra de linha do sistema
                 }
-                
+
                 currentFileName = selectedFile.getName(); // Guarda o nome do arquivo
                 textArea.setText(sb.toString()); // Usa setText() para modificar o documento existente
-                
+
                 // Move o cursor para o início do documento
                 textArea.setCaretPosition(0);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this,
-                    "Não foi possível abrir o arquivo.\nEle pode ser um arquivo binário ou estar corrompido.",
-                    "Erro de Leitura",
-                    JOptionPane.ERROR_MESSAGE);
+                        "Não foi possível abrir o arquivo.\nEle pode ser um arquivo binário ou estar corrompido.",
+                        "Erro de Leitura",
+                        JOptionPane.ERROR_MESSAGE);
                 // Limpa a área de texto em caso de falha na leitura
                 closeFile();
             }
@@ -247,7 +247,11 @@ public class MainFrame extends JFrame {
     private void showAboutDialog() {
         ImageIcon icon = loadIcon("app_icon.png", 25, 25);
         JOptionPane.showMessageDialog(this,
-                "Aplicação: Notepad com Fundo Dinâmico\nVersão: 1.0\nAutores: Augusto Toledo 199793",
+                "Aplicação: Notepad com Fundo Dinâmico\nVersão: 1.0\nAutores: Augusto Toledo Caires de Oliveira - 199793\n"
+                + "Davi Paiva Souza - 222481\n"
+                + "Gabriel Villar Scalese - 174973\n"
+                + "Italo Carvalhaes Camargo Venerando - 281426\n"
+                + "Gabriel Maciel Lourenço Martins - 253211",
                 "Sobre",
                 JOptionPane.INFORMATION_MESSAGE,
                 icon);
